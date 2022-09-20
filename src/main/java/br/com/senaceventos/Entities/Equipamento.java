@@ -1,4 +1,4 @@
-package br.com.senaceventos.Models;
+package br.com.senaceventos.Entities;
 
 import lombok.*;
 

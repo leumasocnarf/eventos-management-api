@@ -1,6 +1,6 @@
-package br.com.senaceventos.Persistence;
+package br.com.senaceventos.Repositories;
 
-import br.com.senaceventos.Models.Equipamento;
+import br.com.senaceventos.Entities.Equipamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IEquipamentoRepository extends JpaRepository<Equipamento, Integer> {
