@@ -1,7 +1,7 @@
 package br.com.senaceventos.Services;
 
-import br.com.senaceventos.Models.Equipamento;
-import br.com.senaceventos.Persistence.IEquipamentoRepository;
+import br.com.senaceventos.Entities.Equipamento;
+import br.com.senaceventos.Repositories.IEquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,12 @@ public class EquipamentoService {
     }
 
     public List<Equipamento> seeAllEquipamentos() {
-        return equipamentoRepository.findAll();
+        var equipamentoList = equipamentoRepository.findAll();
+
+        if (equipamentoList.isEmpty()) {
+            throw new IllegalStateException("Nao ha equipamentos registrados.");
+        }
+        return equipamentoList;
     }
 
     public Equipamento seeSpecificEquipamento(Integer equipamentoId) {
@@ -28,6 +33,9 @@ public class EquipamentoService {
     }
 
     public void addEquipamento(Equipamento equipamento) {
+        if (equipamento == null) {
+            throw new IllegalStateException("valores null");
+        }
         equipamentoRepository.save(equipamento);
     }
 

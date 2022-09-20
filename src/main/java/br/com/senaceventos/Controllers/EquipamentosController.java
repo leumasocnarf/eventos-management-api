@@ -1,6 +1,6 @@
 package br.com.senaceventos.Controllers;
 
-import br.com.senaceventos.Models.Equipamento;
+import br.com.senaceventos.Entities.Equipamento;
 import br.com.senaceventos.Services.EquipamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +24,14 @@ public class EquipamentosController {
 
     @GetMapping
     public ResponseEntity<List<Equipamento>> getEquipamentos() {
-        var equipamentosResponseList = equipamentoService.seeAllEquipamentos();
+        try {
+            var equipamentosResponseList = equipamentoService.seeAllEquipamentos();
 
-        return ResponseEntity.ok(equipamentosResponseList);
+            return ResponseEntity.ok(equipamentosResponseList);
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping(path = "{equipamentoId}")
@@ -43,11 +48,16 @@ public class EquipamentosController {
 
     @PostMapping
     public ResponseEntity<?> saveEquipamento(@RequestBody Equipamento equipamento) {
-        equipamentoService.addEquipamento(equipamento);
+        try {
+            equipamentoService.addEquipamento(equipamento);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
 
-        return ResponseEntity.created(location).body(equipamento);
+            return ResponseEntity.created(location).body(equipamento);
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping(path = "{equipamentoId}")
