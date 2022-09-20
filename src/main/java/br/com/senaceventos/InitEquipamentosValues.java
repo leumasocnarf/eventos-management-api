@@ -1,7 +1,7 @@
 package br.com.senaceventos;
 
-import br.com.senaceventos.Models.Equipamento;
-import br.com.senaceventos.Persistence.IEquipamentoRepository;
+import br.com.senaceventos.Entities.Equipamento;
+import br.com.senaceventos.Repositories.IEquipamentoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

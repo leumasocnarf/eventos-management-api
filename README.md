@@ -14,25 +14,25 @@ Table of Contents
 ## Endpoints
 
 ### Create Equipamento
-```http
+```js
 POST api/v1/equipamentos
 ```
 
 ### Read Equipamento
-```http
+```js
 GET api/v1/equipamentos/{id}
 ```
-```http
+```js
 GET api/v1/equipamentos/
 ```
 
 ### Update Equipamento
-```http
+```js
 PUT api/v1/equipamentos/{id}
 ```
 
 ### Delete Equipamento
-```http
+```js
 DELETE api/v1/equipamento/{id}
 ```
 
