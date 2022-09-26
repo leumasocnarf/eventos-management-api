@@ -26,9 +26,9 @@ public class AgendasController implements IBaseController<Agenda> {
     @GetMapping
     public ResponseEntity<List<Agenda>> getListOf() {
         try {
-            var agendasResponseList = agendaService.fetchAll();
+            var agendasListResponse = agendaService.fetchAll();
 
-            return ResponseEntity.ok(agendasResponseList);
+            return ResponseEntity.ok(agendasListResponse);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.noContent().build();
@@ -50,13 +50,13 @@ public class AgendasController implements IBaseController<Agenda> {
 
     @Override
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody Agenda agenda) {
+    public ResponseEntity<?> post(@RequestBody Agenda agendaRequest) {
         try {
-            agendaService.append(agenda);
+            agendaService.append(agendaRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agenda);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agendaRequest);
 
-            return ResponseEntity.created(location).body(agenda);
+            return ResponseEntity.created(location).body(agendaRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().build();
@@ -80,13 +80,13 @@ public class AgendasController implements IBaseController<Agenda> {
     @Override
     @PutMapping(path = "{agendaId}")
     public ResponseEntity<?> put(@PathVariable("agendaId") Integer agendaId,
-                                 @RequestBody Agenda agenda) {
+                                 @RequestBody Agenda agendaRequest) {
         try {
-            agendaService.update(agendaId, agenda);
+            agendaService.update(agendaId, agendaRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agenda);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agendaRequest);
 
-            return ResponseEntity.created(location).body(agenda);
+            return ResponseEntity.created(location).body(agendaRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();

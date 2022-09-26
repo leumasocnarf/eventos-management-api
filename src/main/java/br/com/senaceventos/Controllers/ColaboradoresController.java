@@ -26,9 +26,9 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     @GetMapping
     public ResponseEntity<List<Colaborador>> getListOf() {
         try {
-            var colaboradorResponseList = colaboradorService.fetchAll();
+            var colaboradoresListResponse = colaboradorService.fetchAll();
 
-            return ResponseEntity.ok(colaboradorResponseList);
+            return ResponseEntity.ok(colaboradoresListResponse);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.noContent().build();
@@ -50,13 +50,13 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
 
     @Override
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody Colaborador colaborador) {
+    public ResponseEntity<?> post(@RequestBody Colaborador colaboradorRequest) {
         try {
-            colaboradorService.append(colaborador);
+            colaboradorService.append(colaboradorRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaborador);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaboradorRequest);
 
-            return ResponseEntity.created(location).body(colaborador);
+            return ResponseEntity.created(location).body(colaboradorRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().build();
@@ -78,13 +78,14 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
 
     @Override
     @PutMapping(path = "{colaboradorId}")
-    public ResponseEntity<?> put(@PathVariable("colaboradorId") Integer colaboradorId, @RequestBody Colaborador colaborador) {
+    public ResponseEntity<?> put(@PathVariable("colaboradorId") Integer colaboradorId,
+                                 @RequestBody Colaborador colaboradorRequest) {
         try {
-            colaboradorService.update(colaboradorId, colaborador);
+            colaboradorService.update(colaboradorId, colaboradorRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaborador);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaboradorRequest);
 
-            return ResponseEntity.created(location).body(colaborador);
+            return ResponseEntity.created(location).body(colaboradorRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();

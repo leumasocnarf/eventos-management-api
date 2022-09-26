@@ -19,7 +19,6 @@ public class AgendaService implements IBaseService<Agenda> {
         this.agendaRepository = agendaRepository;
     }
 
-
     @Override
     public List<Agenda> fetchAll() {
         var agendaList = agendaRepository.findAll();

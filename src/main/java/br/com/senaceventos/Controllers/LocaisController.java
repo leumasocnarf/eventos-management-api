@@ -26,9 +26,9 @@ public class LocaisController implements IBaseController<Local> {
     @GetMapping
     public ResponseEntity<List<Local>> getListOf() {
         try {
-            var localsResponseList = localService.fetchAll();
+            var locaisListResponse = localService.fetchAll();
 
-            return ResponseEntity.ok(localsResponseList);
+            return ResponseEntity.ok(locaisListResponse);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.noContent().build();
@@ -50,13 +50,13 @@ public class LocaisController implements IBaseController<Local> {
 
     @Override
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody Local local) {
+    public ResponseEntity<?> post(@RequestBody Local localRequest) {
         try {
-            localService.append(local);
+            localService.append(localRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(local);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(localRequest);
 
-            return ResponseEntity.created(location).body(local);
+            return ResponseEntity.created(location).body(localRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().build();
@@ -78,13 +78,14 @@ public class LocaisController implements IBaseController<Local> {
 
     @Override
     @PutMapping(path = "{localId}")
-    public ResponseEntity<?> put(@PathVariable("localId") Integer localId, @RequestBody Local local) {
+    public ResponseEntity<?> put(@PathVariable("localId") Integer localId,
+                                 @RequestBody Local localRequest) {
         try {
-            localService.update(localId, local);
+            localService.update(localId, localRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(local);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(localRequest);
 
-            return ResponseEntity.created(location).body(local);
+            return ResponseEntity.created(location).body(localRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();

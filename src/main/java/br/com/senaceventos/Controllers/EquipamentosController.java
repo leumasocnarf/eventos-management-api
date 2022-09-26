@@ -3,7 +3,6 @@ package br.com.senaceventos.Controllers;
 import br.com.senaceventos.Controllers.Common.IBaseController;
 import br.com.senaceventos.Entities.Agenda;
 import br.com.senaceventos.Entities.Equipamento;
-import br.com.senaceventos.Services.AgendaService;
 import br.com.senaceventos.Services.EquipamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     private final EquipamentoService equipamentoService;
 
     @Autowired
-    public EquipamentosController(EquipamentoService equipamentoService, AgendaService agendaService) {
+    public EquipamentosController(EquipamentoService equipamentoService) {
         this.equipamentoService = equipamentoService;
     }
 
@@ -68,10 +67,10 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     public ResponseEntity<List<Agenda>> getAllAgendasWithThisEquipamento(
             @PathVariable("equipamentoId") Integer equipamentoId) {
         try {
-            var agendasInEquipamentosList = equipamentoService
+            var agendasListWithEquipamentoResponse = equipamentoService
                     .fetchAllWith(equipamentoId);
 
-            return ResponseEntity.ok(agendasInEquipamentosList);
+            return ResponseEntity.ok(agendasListWithEquipamentoResponse);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();
@@ -80,13 +79,13 @@ public class EquipamentosController implements IBaseController<Equipamento> {
 
     @Override
     @PostMapping(path = "/equipamentos")
-    public ResponseEntity<?> post(@RequestBody Equipamento equipamento) {
+    public ResponseEntity<?> post(@RequestBody Equipamento equipamentoRequest) {
         try {
-            equipamentoService.append(equipamento);
+            equipamentoService.append(equipamentoRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
 
-            return ResponseEntity.created(location).body(equipamento);
+            return ResponseEntity.created(location).body(equipamentoRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().build();
@@ -94,13 +93,13 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     }
 
     @PostMapping(path = "/agendas/{agendaId}/equipamentos")
-    public ResponseEntity<?> postInto(@PathVariable("agendaId") Integer agendaId,
-                                      @RequestBody Equipamento equipamento) {
+    public ResponseEntity<?> postEquipamentoIntoAgenda(@PathVariable("agendaId") Integer agendaId,
+                                                       @RequestBody Equipamento equipamentoRequest) {
         try {
-            equipamentoService.appendInto(agendaId, equipamento);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
+            equipamentoService.appendInto(agendaId, equipamentoRequest);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
 
-            return ResponseEntity.created(location).body(equipamento);
+            return ResponseEntity.created(location).body(equipamentoRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().build();
@@ -125,13 +124,13 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     @Override
     @PutMapping(path = "/equipamentos/{equipamentoId}")
     public ResponseEntity<?> put(@PathVariable("equipamentoId") Integer equipamentoId,
-                                 @RequestBody Equipamento equipamento) {
+                                 @RequestBody Equipamento equipamentoRequest) {
         try {
-            equipamentoService.update(equipamentoId, equipamento);
+            equipamentoService.update(equipamentoId, equipamentoRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
 
-            return ResponseEntity.created(location).body(equipamento);
+            return ResponseEntity.created(location).body(equipamentoRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();
