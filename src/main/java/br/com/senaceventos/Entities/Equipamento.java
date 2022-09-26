@@ -1,8 +1,11 @@
 package br.com.senaceventos.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -11,16 +14,25 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Equipamento {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "equip_seq", sequenceName = "equip_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "equip_seq")
+    @Column(name = "equipamento_id")
     private Integer id;
+
+    @Column(name = "equipamento_descricao", columnDefinition = "TEXT", nullable = false)
     private String descricao;
+
+    @Column(name = "equipamento_observacao", columnDefinition = "TEXT", nullable = false)
     private String observacao;
 
-    public Equipamento(String descricao, String observacao) {
-        this.descricao = descricao;
-        this.observacao = observacao;
-    }
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE},
+            mappedBy = "equipamentos")
+    @JsonIgnore
+    private Set<Agenda> agendas = new HashSet<>();
+
 }
