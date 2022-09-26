@@ -1,6 +1,9 @@
 package br.com.senaceventos.Controllers;
 
+import br.com.senaceventos.Controllers.Common.IBaseController;
+import br.com.senaceventos.Entities.Agenda;
 import br.com.senaceventos.Entities.Equipamento;
+import br.com.senaceventos.Services.AgendaService;
 import br.com.senaceventos.Services.EquipamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,32 +15,34 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "api/v1/equipamentos")
-public class EquipamentosController {
+@RequestMapping(path = "api/v1")
+public class EquipamentosController implements IBaseController<Equipamento> {
 
     private final EquipamentoService equipamentoService;
 
     @Autowired
-    public EquipamentosController(EquipamentoService equipamentoService) {
+    public EquipamentosController(EquipamentoService equipamentoService, AgendaService agendaService) {
         this.equipamentoService = equipamentoService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Equipamento>> getEquipamentos() {
+    @Override
+    @GetMapping(path = "/equipamentos")
+    public ResponseEntity<List<Equipamento>> getListOf() {
         try {
-            var equipamentosResponseList = equipamentoService.seeAllEquipamentos();
+            var equipamentosListResponse = equipamentoService.fetchAll();
 
-            return ResponseEntity.ok(equipamentosResponseList);
+            return ResponseEntity.ok(equipamentosListResponse);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.noContent().build();
         }
     }
 
-    @GetMapping(path = "{equipamentoId}")
-    public ResponseEntity<Equipamento> getOneEquipamento(@PathVariable("equipamentoId") Integer equipamentoId) {
+    @Override
+    @GetMapping(path = "/equipamentos/{equipamentoId}")
+    public ResponseEntity<Equipamento> get(@PathVariable("equipamentoId") Integer equipamentoId) {
         try {
-            var equipamentoResponse = equipamentoService.seeSpecificEquipamento(equipamentoId);
+            var equipamentoResponse = equipamentoService.fetchOne(equipamentoId);
 
             return ResponseEntity.ok(equipamentoResponse);
 
@@ -46,10 +51,38 @@ public class EquipamentosController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<?> saveEquipamento(@RequestBody Equipamento equipamento) {
+    @GetMapping(path = "/agendas/{agendaId}/equipamentos")
+    public ResponseEntity<List<Equipamento>> getAllEquipamentosInThisAgenda(@PathVariable("agendaId") Integer agendaId) {
         try {
-            equipamentoService.addEquipamento(equipamento);
+            var equipamentosListInAgendaResponse = equipamentoService
+                    .fetchAllFrom(agendaId);
+
+            return ResponseEntity.ok(equipamentosListInAgendaResponse);
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/equipamentos/{equipamentoId}/agendas")
+    public ResponseEntity<List<Agenda>> getAllAgendasWithThisEquipamento(
+            @PathVariable("equipamentoId") Integer equipamentoId) {
+        try {
+            var agendasInEquipamentosList = equipamentoService
+                    .fetchAllWith(equipamentoId);
+
+            return ResponseEntity.ok(agendasInEquipamentosList);
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    @PostMapping(path = "/equipamentos")
+    public ResponseEntity<?> post(@RequestBody Equipamento equipamento) {
+        try {
+            equipamentoService.append(equipamento);
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
 
@@ -60,10 +93,26 @@ public class EquipamentosController {
         }
     }
 
-    @DeleteMapping(path = "{equipamentoId}")
-    public ResponseEntity<?> deleteEquipamento(@PathVariable("equipamentoId") Integer equipamentoId) {
+    @PostMapping(path = "/agendas/{agendaId}/equipamentos")
+    public ResponseEntity<?> postInto(@PathVariable("agendaId") Integer agendaId,
+                                      @RequestBody Equipamento equipamento) {
         try {
-            equipamentoService.deleteEquipamento(equipamentoId);
+            equipamentoService.appendInto(agendaId, equipamento);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
+
+            return ResponseEntity.created(location).body(equipamento);
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
+    @Override
+    @DeleteMapping(path = "/equipamentos/{equipamentoId}")
+    public ResponseEntity<?> delete(@PathVariable("equipamentoId") Integer equipamentoId) {
+        try {
+            equipamentoService.remove(equipamentoId);
 
             return ResponseEntity.noContent().build();
 
@@ -72,10 +121,13 @@ public class EquipamentosController {
         }
     }
 
-    @PutMapping(path = "{equipamentoId}")
-    public ResponseEntity<?> updateEquipamento(@PathVariable("equipamentoId") Integer equipamentoId, @RequestBody Equipamento equipamento) {
+    // correct mapping
+    @Override
+    @PutMapping(path = "/equipamentos/{equipamentoId}")
+    public ResponseEntity<?> put(@PathVariable("equipamentoId") Integer equipamentoId,
+                                 @RequestBody Equipamento equipamento) {
         try {
-            equipamentoService.updateEquipamento(equipamentoId, equipamento);
+            equipamentoService.update(equipamentoId, equipamento);
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamento);
 
