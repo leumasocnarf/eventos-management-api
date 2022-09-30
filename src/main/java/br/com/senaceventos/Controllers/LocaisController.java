@@ -3,6 +3,10 @@ package br.com.senaceventos.Controllers;
 import br.com.senaceventos.Controllers.Common.IBaseController;
 import br.com.senaceventos.Entities.Local;
 import br.com.senaceventos.Services.LocalService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +27,10 @@ public class LocaisController implements IBaseController<Local> {
     }
 
     @Override
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<Local>> getListOf() {
         try {
-            var locaisListResponse = localService.fetchAll();
+            var locaisListResponse = localService.retrieveAll();
 
             return ResponseEntity.ok(locaisListResponse);
 
@@ -36,10 +40,10 @@ public class LocaisController implements IBaseController<Local> {
     }
 
     @Override
-    @GetMapping(path = "{localId}")
+    @GetMapping(path = "{localId}", produces = "application/json")
     public ResponseEntity<Local> get(@PathVariable("localId") Integer localId) {
         try {
-            var localResponse = localService.fetchOne(localId);
+            var localResponse = localService.retrieveById(localId);
 
             return ResponseEntity.ok(localResponse);
 
@@ -49,7 +53,7 @@ public class LocaisController implements IBaseController<Local> {
     }
 
     @Override
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public ResponseEntity<?> post(@RequestBody Local localRequest) {
         try {
             localService.append(localRequest);
@@ -64,12 +68,15 @@ public class LocaisController implements IBaseController<Local> {
     }
 
     @Override
-    @DeleteMapping(path = "{localId}")
-    public ResponseEntity<?> delete(@PathVariable("localId") Integer localId) {
+    @PutMapping(path = "{localId}", produces = "application/json")
+    public ResponseEntity<?> put(@PathVariable("localId") Integer localId,
+                                 @RequestBody Local localRequest) {
         try {
-            localService.remove(localId);
+            localService.alter(localId, localRequest);
 
-            return ResponseEntity.noContent().build();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(localRequest);
+
+            return ResponseEntity.created(location).body(localRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();
@@ -77,15 +84,12 @@ public class LocaisController implements IBaseController<Local> {
     }
 
     @Override
-    @PutMapping(path = "{localId}")
-    public ResponseEntity<?> put(@PathVariable("localId") Integer localId,
-                                 @RequestBody Local localRequest) {
+    @DeleteMapping(path = "{localId}", produces = "application/json")
+    public ResponseEntity<?> delete(@PathVariable("localId") Integer localId) {
         try {
-            localService.update(localId, localRequest);
+            localService.remove(localId);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(localRequest);
-
-            return ResponseEntity.created(location).body(localRequest);
+            return ResponseEntity.noContent().build();
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();

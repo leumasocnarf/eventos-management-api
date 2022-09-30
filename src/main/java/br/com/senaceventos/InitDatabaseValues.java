@@ -26,7 +26,7 @@ public class InitDatabaseValues {
     CommandLineRunner commandLineRunner(IEquipamentoRepository equipamentoRepository,
                                         ILocalRepository localRepository,
                                         IColaboradorRepository colaboradorRepository,
-                                        IAgendaRepository agendaRepository){
+                                        IAgendaRepository agendaRepository) {
         return args -> {
             var equip1 = new Equipamento();
             var equip2 = new Equipamento();
