@@ -21,7 +21,7 @@ public class ColaboradorService implements IBaseService<Colaborador> {
     }
 
     @Override
-    public List<Colaborador> fetchAll() {
+    public List<Colaborador> retrieveAll() {
         var colaboradorList = colaboradorRepository.findAll();
 
         if (colaboradorList.isEmpty()) {
@@ -31,7 +31,7 @@ public class ColaboradorService implements IBaseService<Colaborador> {
     }
 
     @Override
-    public Colaborador fetchOne(Integer colaboradorId) {
+    public Colaborador retrieveById(Integer colaboradorId) {
         return colaboradorRepository.findById(colaboradorId)
                 .orElseThrow(() -> new IllegalStateException("Esse colaborador nao esta registrado."));
     }
@@ -45,6 +45,17 @@ public class ColaboradorService implements IBaseService<Colaborador> {
     }
 
     @Override
+    @Transactional
+    public void alter(Integer colaboradorId, Colaborador newColaborador) {
+        var oldColaborador = colaboradorRepository
+                .findById(colaboradorId)
+                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+
+        oldColaborador.setTipoColaborador(newColaborador.getTipoColaborador());
+        oldColaborador.setNome(newColaborador.getNome());
+    }
+
+    @Override
     public void remove(Integer colaboradorId) {
         var equip = colaboradorRepository.findById(colaboradorId);
 
@@ -52,16 +63,5 @@ public class ColaboradorService implements IBaseService<Colaborador> {
             throw new IllegalStateException("Nao ha registro para deletar.");
         }
         colaboradorRepository.deleteById(colaboradorId);
-    }
-
-    @Override
-    @Transactional
-    public void update(Integer colaboradorId, Colaborador newColaborador) {
-        var oldColaborador = colaboradorRepository
-                .findById(colaboradorId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
-
-        oldColaborador.setTipoColaborador(newColaborador.getTipoColaborador());
-        oldColaborador.setNome(newColaborador.getNome());
     }
 }

@@ -25,10 +25,10 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     }
 
     @Override
-    @GetMapping(path = "/equipamentos")
+    @GetMapping(path = "/equipamentos", produces = "application/json")
     public ResponseEntity<List<Equipamento>> getListOf() {
         try {
-            var equipamentosListResponse = equipamentoService.fetchAll();
+            var equipamentosListResponse = equipamentoService.retrieveAll();
 
             return ResponseEntity.ok(equipamentosListResponse);
 
@@ -38,10 +38,10 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     }
 
     @Override
-    @GetMapping(path = "/equipamentos/{equipamentoId}")
+    @GetMapping(path = "/equipamentos/{equipamentoId}", produces = "application/json")
     public ResponseEntity<Equipamento> get(@PathVariable("equipamentoId") Integer equipamentoId) {
         try {
-            var equipamentoResponse = equipamentoService.fetchOne(equipamentoId);
+            var equipamentoResponse = equipamentoService.retrieveById(equipamentoId);
 
             return ResponseEntity.ok(equipamentoResponse);
 
@@ -50,11 +50,11 @@ public class EquipamentosController implements IBaseController<Equipamento> {
         }
     }
 
-    @GetMapping(path = "/agendas/{agendaId}/equipamentos")
+    @GetMapping(path = "/agendas/{agendaId}/equipamentos", produces = "application/json")
     public ResponseEntity<List<Equipamento>> getAllEquipamentosInThisAgenda(@PathVariable("agendaId") Integer agendaId) {
         try {
             var equipamentosListInAgendaResponse = equipamentoService
-                    .fetchAllFrom(agendaId);
+                    .retrieveAllFromAgenda(agendaId);
 
             return ResponseEntity.ok(equipamentosListInAgendaResponse);
 
@@ -63,12 +63,11 @@ public class EquipamentosController implements IBaseController<Equipamento> {
         }
     }
 
-    @GetMapping(path = "/equipamentos/{equipamentoId}/agendas")
-    public ResponseEntity<List<Agenda>> getAllAgendasWithThisEquipamento(
-            @PathVariable("equipamentoId") Integer equipamentoId) {
+    @GetMapping(path = "/equipamentos/{equipamentoId}/agendas", produces = "application/json")
+    public ResponseEntity<List<Agenda>> getAllAgendasWithThisEquipamento(@PathVariable("equipamentoId") Integer equipamentoId) {
         try {
             var agendasListWithEquipamentoResponse = equipamentoService
-                    .fetchAllWith(equipamentoId);
+                    .retrieveAllWithEquipamento(equipamentoId);
 
             return ResponseEntity.ok(agendasListWithEquipamentoResponse);
 
@@ -78,7 +77,7 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     }
 
     @Override
-    @PostMapping(path = "/equipamentos")
+    @PostMapping(path = "/equipamentos", produces = "application/json")
     public ResponseEntity<?> post(@RequestBody Equipamento equipamentoRequest) {
         try {
             equipamentoService.append(equipamentoRequest);
@@ -92,7 +91,7 @@ public class EquipamentosController implements IBaseController<Equipamento> {
         }
     }
 
-    @PostMapping(path = "/agendas/{agendaId}/equipamentos")
+    @PostMapping(path = "/agendas/{agendaId}/equipamentos", produces = "application/json")
     public ResponseEntity<?> postEquipamentoIntoAgenda(@PathVariable("agendaId") Integer agendaId,
                                                        @RequestBody Equipamento equipamentoRequest) {
         try {
@@ -106,31 +105,29 @@ public class EquipamentosController implements IBaseController<Equipamento> {
         }
     }
 
-
     @Override
-    @DeleteMapping(path = "/equipamentos/{equipamentoId}")
-    public ResponseEntity<?> delete(@PathVariable("equipamentoId") Integer equipamentoId) {
+    @PutMapping(path = "/equipamentos/{equipamentoId}", produces = "application/json")
+    public ResponseEntity<?> put(@PathVariable("equipamentoId") Integer equipamentoId,
+                                 @RequestBody Equipamento equipamentoRequest) {
         try {
-            equipamentoService.remove(equipamentoId);
+            equipamentoService.alter(equipamentoId, equipamentoRequest);
 
-            return ResponseEntity.noContent().build();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
+
+            return ResponseEntity.created(location).body(equipamentoRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    // correct mapping
     @Override
-    @PutMapping(path = "/equipamentos/{equipamentoId}")
-    public ResponseEntity<?> put(@PathVariable("equipamentoId") Integer equipamentoId,
-                                 @RequestBody Equipamento equipamentoRequest) {
+    @DeleteMapping(path = "/equipamentos/{equipamentoId}", produces = "application/json")
+    public ResponseEntity<?> delete(@PathVariable("equipamentoId") Integer equipamentoId) {
         try {
-            equipamentoService.update(equipamentoId, equipamentoRequest);
+            equipamentoService.remove(equipamentoId);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
-
-            return ResponseEntity.created(location).body(equipamentoRequest);
+            return ResponseEntity.noContent().build();
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();

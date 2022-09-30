@@ -23,10 +23,10 @@ public class AgendasController implements IBaseController<Agenda> {
     }
 
     @Override
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<Agenda>> getListOf() {
         try {
-            var agendasListResponse = agendaService.fetchAll();
+            var agendasListResponse = agendaService.retrieveAll();
 
             return ResponseEntity.ok(agendasListResponse);
 
@@ -36,10 +36,10 @@ public class AgendasController implements IBaseController<Agenda> {
     }
 
     @Override
-    @GetMapping(path = "{agendaId}")
+    @GetMapping(path = "{agendaId}", produces = "application/json")
     public ResponseEntity<Agenda> get(@PathVariable("agendaId") Integer agendaId) {
         try {
-            var agendaResponse = agendaService.fetchOne(agendaId);
+            var agendaResponse = agendaService.retrieveById(agendaId);
 
             return ResponseEntity.ok(agendaResponse);
 
@@ -49,7 +49,7 @@ public class AgendasController implements IBaseController<Agenda> {
     }
 
     @Override
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public ResponseEntity<?> post(@RequestBody Agenda agendaRequest) {
         try {
             agendaService.append(agendaRequest);
@@ -63,14 +63,16 @@ public class AgendasController implements IBaseController<Agenda> {
         }
     }
 
-
     @Override
-    @DeleteMapping(path = "{agendaId}")
-    public ResponseEntity<?> delete(@PathVariable("agendaId") Integer agendaId) {
+    @PutMapping(path = "{agendaId}", produces = "application/json")
+    public ResponseEntity<?> put(@PathVariable("agendaId") Integer agendaId,
+                                 @RequestBody Agenda agendaRequest) {
         try {
-            agendaService.remove(agendaId);
+            agendaService.alter(agendaId, agendaRequest);
 
-            return ResponseEntity.noContent().build();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agendaRequest);
+
+            return ResponseEntity.created(location).body(agendaRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();
@@ -78,15 +80,12 @@ public class AgendasController implements IBaseController<Agenda> {
     }
 
     @Override
-    @PutMapping(path = "{agendaId}")
-    public ResponseEntity<?> put(@PathVariable("agendaId") Integer agendaId,
-                                 @RequestBody Agenda agendaRequest) {
+    @DeleteMapping(path = "{agendaId}", produces = "application/json")
+    public ResponseEntity<?> delete(@PathVariable("agendaId") Integer agendaId) {
         try {
-            agendaService.update(agendaId, agendaRequest);
+            agendaService.remove(agendaId);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agendaRequest);
-
-            return ResponseEntity.created(location).body(agendaRequest);
+            return ResponseEntity.noContent().build();
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();

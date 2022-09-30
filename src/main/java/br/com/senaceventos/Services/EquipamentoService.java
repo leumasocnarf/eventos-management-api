@@ -25,7 +25,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
     }
 
     @Override
-    public List<Equipamento> fetchAll() {
+    public List<Equipamento> retrieveAll() {
         var equipamentoList = equipamentoRepository.findAll();
 
         if (equipamentoList.isEmpty()) {
@@ -35,12 +35,12 @@ public class EquipamentoService implements IBaseService<Equipamento> {
     }
 
     @Override
-    public Equipamento fetchOne(Integer equipamentoId) {
+    public Equipamento retrieveById(Integer equipamentoId) {
         return equipamentoRepository.findById(equipamentoId)
                 .orElseThrow(() -> new IllegalStateException("Esse equipamento nao esta registrado."));
     }
 
-    public List<Equipamento> fetchAllFrom(Integer agendaId) {
+    public List<Equipamento> retrieveAllFromAgenda(Integer agendaId) {
         if (!agendaRepository.existsById(agendaId)) {
             throw new IllegalStateException("Nao ha agenda com esse id.");
         }
@@ -55,7 +55,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
         return equipamentosInAgendaList;
     }
 
-    public List<Agenda> fetchAllWith(Integer equipamentoId) {
+    public List<Agenda> retrieveAllWithEquipamento(Integer equipamentoId) {
         if (!equipamentoRepository.existsById(equipamentoId)) {
             throw new IllegalStateException("Nao ha equipamento registrado com esse id.");
         }
@@ -96,6 +96,16 @@ public class EquipamentoService implements IBaseService<Equipamento> {
         }).orElseThrow(() -> new IllegalStateException("agenda nao encontrada com id"));
     }
 
+    @Override
+    @Transactional
+    public void alter(Integer equipamentoId, Equipamento newEquipamento) {
+        var oldEquipamento = equipamentoRepository
+                .findById(equipamentoId)
+                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+
+        oldEquipamento.setDescricao(newEquipamento.getDescricao());
+        oldEquipamento.setObservacao(newEquipamento.getObservacao());
+    }
 
     @Override
     public void remove(Integer equipamentoId) {
@@ -105,16 +115,5 @@ public class EquipamentoService implements IBaseService<Equipamento> {
             throw new IllegalStateException("Nao ha registro para deletar.");
         }
         equipamentoRepository.deleteById(equipamentoId);
-    }
-
-    @Override
-    @Transactional
-    public void update(Integer equipamentoId, Equipamento newEquipamento) {
-        var oldEquipamento = equipamentoRepository
-                .findById(equipamentoId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
-
-        oldEquipamento.setDescricao(newEquipamento.getDescricao());
-        oldEquipamento.setObservacao(newEquipamento.getObservacao());
     }
 }

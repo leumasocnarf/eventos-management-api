@@ -23,10 +23,10 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     }
 
     @Override
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<Colaborador>> getListOf() {
         try {
-            var colaboradoresListResponse = colaboradorService.fetchAll();
+            var colaboradoresListResponse = colaboradorService.retrieveAll();
 
             return ResponseEntity.ok(colaboradoresListResponse);
 
@@ -36,10 +36,10 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     }
 
     @Override
-    @GetMapping(path = "{colaboradorId}")
+    @GetMapping(path = "{colaboradorId}", produces = "application/json")
     public ResponseEntity<Colaborador> get(@PathVariable("colaboradorId") Integer colaboradorId) {
         try {
-            var colaboradorResponse = colaboradorService.fetchOne(colaboradorId);
+            var colaboradorResponse = colaboradorService.retrieveById(colaboradorId);
 
             return ResponseEntity.ok(colaboradorResponse);
 
@@ -49,7 +49,7 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     }
 
     @Override
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public ResponseEntity<?> post(@RequestBody Colaborador colaboradorRequest) {
         try {
             colaboradorService.append(colaboradorRequest);
@@ -64,12 +64,15 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     }
 
     @Override
-    @DeleteMapping(path = "{colaboradorId}")
-    public ResponseEntity<?> delete(@PathVariable("colaboradorId") Integer colaboradorId) {
+    @PutMapping(path = "{colaboradorId}", produces = "application/json")
+    public ResponseEntity<?> put(@PathVariable("colaboradorId") Integer colaboradorId,
+                                 @RequestBody Colaborador colaboradorRequest) {
         try {
-            colaboradorService.remove(colaboradorId);
+            colaboradorService.alter(colaboradorId, colaboradorRequest);
 
-            return ResponseEntity.noContent().build();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaboradorRequest);
+
+            return ResponseEntity.created(location).body(colaboradorRequest);
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();
@@ -77,15 +80,12 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     }
 
     @Override
-    @PutMapping(path = "{colaboradorId}")
-    public ResponseEntity<?> put(@PathVariable("colaboradorId") Integer colaboradorId,
-                                 @RequestBody Colaborador colaboradorRequest) {
+    @DeleteMapping(path = "{colaboradorId}", produces = "application/json")
+    public ResponseEntity<?> delete(@PathVariable("colaboradorId") Integer colaboradorId) {
         try {
-            colaboradorService.update(colaboradorId, colaboradorRequest);
+            colaboradorService.remove(colaboradorId);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaboradorRequest);
-
-            return ResponseEntity.created(location).body(colaboradorRequest);
+            return ResponseEntity.noContent().build();
 
         } catch (IllegalStateException e) {
             return ResponseEntity.notFound().build();

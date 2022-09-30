@@ -21,7 +21,7 @@ public class LocalService implements IBaseService<Local> {
     }
 
     @Override
-    public List<Local> fetchAll() {
+    public List<Local> retrieveAll() {
         var localList = localRepository.findAll();
 
         if (localList.isEmpty()) {
@@ -31,7 +31,7 @@ public class LocalService implements IBaseService<Local> {
     }
 
     @Override
-    public Local fetchOne(Integer localId) {
+    public Local retrieveById(Integer localId) {
         return localRepository.findById(localId)
                 .orElseThrow(() -> new IllegalStateException("Esse local nao esta registrado."));
     }
@@ -45,6 +45,17 @@ public class LocalService implements IBaseService<Local> {
     }
 
     @Override
+    @Transactional
+    public void alter(Integer localId, Local newLocal) {
+        var oldLocal = localRepository
+                .findById(localId)
+                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+
+        oldLocal.setDescricao(newLocal.getDescricao());
+        oldLocal.setObservacao(newLocal.getObservacao());
+    }
+
+    @Override
     public void remove(Integer localId) {
         var equip = localRepository.findById(localId);
 
@@ -52,16 +63,5 @@ public class LocalService implements IBaseService<Local> {
             throw new IllegalStateException("Nao ha registro para deletar.");
         }
         localRepository.deleteById(localId);
-    }
-
-    @Override
-    @Transactional
-    public void update(Integer localId, Local newLocal) {
-        var oldLocal = localRepository
-                .findById(localId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
-
-        oldLocal.setDescricao(newLocal.getDescricao());
-        oldLocal.setObservacao(newLocal.getObservacao());
     }
 }

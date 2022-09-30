@@ -20,7 +20,7 @@ public class AgendaService implements IBaseService<Agenda> {
     }
 
     @Override
-    public List<Agenda> fetchAll() {
+    public List<Agenda> retrieveAll() {
         var agendaList = agendaRepository.findAll();
 
         if (agendaList.isEmpty()) {
@@ -30,7 +30,7 @@ public class AgendaService implements IBaseService<Agenda> {
     }
 
     @Override
-    public Agenda fetchOne(Integer agendaId) {
+    public Agenda retrieveById(Integer agendaId) {
         return agendaRepository.findById(agendaId)
                 .orElseThrow(() -> new IllegalStateException("Esse agenda nao esta registrado."));
     }
@@ -44,6 +44,16 @@ public class AgendaService implements IBaseService<Agenda> {
     }
 
     @Override
+    @Transactional
+    public void alter(Integer agendaId, Agenda newAgenda) {
+        var oldAgenda = agendaRepository
+                .findById(agendaId)
+                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+
+        oldAgenda.setObservacao(newAgenda.getObservacao());
+    }
+
+    @Override
     public void remove(Integer agendaId) {
         var equip = agendaRepository.findById(agendaId);
 
@@ -51,15 +61,5 @@ public class AgendaService implements IBaseService<Agenda> {
             throw new IllegalStateException("Nao ha registro para deletar.");
         }
         agendaRepository.deleteById(agendaId);
-    }
-
-    @Override
-    @Transactional
-    public void update(Integer agendaId, Agenda newAgenda) {
-        var oldAgenda = agendaRepository
-                .findById(agendaId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
-
-        oldAgenda.setObservacao(newAgenda.getObservacao());
     }
 }
