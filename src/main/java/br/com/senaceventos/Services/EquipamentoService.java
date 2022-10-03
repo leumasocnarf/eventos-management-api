@@ -2,6 +2,9 @@ package br.com.senaceventos.Services;
 
 import br.com.senaceventos.Entities.Agenda;
 import br.com.senaceventos.Entities.Equipamento;
+import br.com.senaceventos.Exceptions.InvalidParametersAtRequestBodyException;
+import br.com.senaceventos.Exceptions.NoContentFoundAtCollectionException;
+import br.com.senaceventos.Exceptions.RegisterNotFoundException;
 import br.com.senaceventos.Repositories.IAgendaRepository;
 import br.com.senaceventos.Repositories.IEquipamentoRepository;
 import br.com.senaceventos.Services.Common.IBaseService;
@@ -29,7 +32,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
         var equipamentoList = equipamentoRepository.findAll();
 
         if (equipamentoList.isEmpty()) {
-            throw new IllegalStateException("Nao ha equipamentos registrados.");
+            throw new NoContentFoundAtCollectionException("Nao ha equipamentos registrados.");
         }
         return equipamentoList;
     }
@@ -37,19 +40,19 @@ public class EquipamentoService implements IBaseService<Equipamento> {
     @Override
     public Equipamento retrieveById(Integer equipamentoId) {
         return equipamentoRepository.findById(equipamentoId)
-                .orElseThrow(() -> new IllegalStateException("Esse equipamento nao esta registrado."));
+                .orElseThrow(() -> new RegisterNotFoundException("Esse equipamento nao esta registrado."));
     }
 
     public List<Equipamento> retrieveAllFromAgenda(Integer agendaId) {
         if (!agendaRepository.existsById(agendaId)) {
-            throw new IllegalStateException("Nao ha agenda com esse id.");
+            throw new RegisterNotFoundException("Nao ha agenda com esse id.");
         }
 
         var equipamentosInAgendaList = equipamentoRepository
                 .findEquipamentosByAgendaId(agendaId);
 
         if (equipamentosInAgendaList.isEmpty()) {
-            throw new IllegalStateException("Nao ha equipamentos registrados.");
+            throw new NoContentFoundAtCollectionException("Nao ha equipamentos registrados.");
         }
 
         return equipamentosInAgendaList;
@@ -57,14 +60,14 @@ public class EquipamentoService implements IBaseService<Equipamento> {
 
     public List<Agenda> retrieveAllWithEquipamento(Integer equipamentoId) {
         if (!equipamentoRepository.existsById(equipamentoId)) {
-            throw new IllegalStateException("Nao ha equipamento registrado com esse id.");
+            throw new RegisterNotFoundException("Nao ha equipamento registrado com esse id.");
         }
 
         var agendasInEquipamentosList = agendaRepository
                 .findAgendasByEquipamentosId(equipamentoId);
 
         if (agendasInEquipamentosList.isEmpty()) {
-            throw new IllegalStateException("Nao ha agendas registradas para esse equipamento.");
+            throw new NoContentFoundAtCollectionException("Nao ha agendas registradas para esse equipamento.");
         }
 
         return agendasInEquipamentosList;
@@ -73,7 +76,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
     @Override
     public void append(Equipamento equipamento) {
         if (equipamento == null) {
-            throw new IllegalStateException("valores null");
+            throw new InvalidParametersAtRequestBodyException("valores null");
         }
         equipamentoRepository.save(equipamento);
     }
@@ -85,7 +88,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
 
             if (equipId != 0) {
                 var _equip = equipamentoRepository.findById(equipId)
-                        .orElseThrow(() -> new IllegalStateException("equipamento nao encontrado"));
+                        .orElseThrow(() -> new RegisterNotFoundException("equipamento nao encontrado"));
 
                 agenda.reservarEquipamento(_equip);
                 agendaRepository.save(agenda);
@@ -93,7 +96,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
             }
             agenda.reservarEquipamento(equipamento);
             return equipamentoRepository.save(equipamento);
-        }).orElseThrow(() -> new IllegalStateException("agenda nao encontrada com id"));
+        }).orElseThrow(() -> new RegisterNotFoundException("agenda nao encontrada com id"));
     }
 
     @Override
@@ -101,7 +104,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
     public void alter(Integer equipamentoId, Equipamento newEquipamento) {
         var oldEquipamento = equipamentoRepository
                 .findById(equipamentoId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+                .orElseThrow(() -> new RegisterNotFoundException("Nao ha registro para atualizar."));
 
         oldEquipamento.setDescricao(newEquipamento.getDescricao());
         oldEquipamento.setObservacao(newEquipamento.getObservacao());
@@ -112,7 +115,7 @@ public class EquipamentoService implements IBaseService<Equipamento> {
         var equip = equipamentoRepository.findById(equipamentoId);
 
         if (equip.isEmpty()) {
-            throw new IllegalStateException("Nao ha registro para deletar.");
+            throw new RegisterNotFoundException("Nao ha registro para deletar.");
         }
         equipamentoRepository.deleteById(equipamentoId);
     }

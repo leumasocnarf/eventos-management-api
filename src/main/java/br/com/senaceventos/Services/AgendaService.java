@@ -1,6 +1,9 @@
 package br.com.senaceventos.Services;
 
 import br.com.senaceventos.Entities.Agenda;
+import br.com.senaceventos.Exceptions.InvalidParametersAtRequestBodyException;
+import br.com.senaceventos.Exceptions.NoContentFoundAtCollectionException;
+import br.com.senaceventos.Exceptions.RegisterNotFoundException;
 import br.com.senaceventos.Repositories.IAgendaRepository;
 import br.com.senaceventos.Services.Common.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ public class AgendaService implements IBaseService<Agenda> {
         var agendaList = agendaRepository.findAll();
 
         if (agendaList.isEmpty()) {
-            throw new IllegalStateException("Nao ha agendas registrados.");
+            throw new NoContentFoundAtCollectionException("Nao ha agendas registrados.");
         }
         return agendaList;
     }
@@ -32,13 +35,13 @@ public class AgendaService implements IBaseService<Agenda> {
     @Override
     public Agenda retrieveById(Integer agendaId) {
         return agendaRepository.findById(agendaId)
-                .orElseThrow(() -> new IllegalStateException("Esse agenda nao esta registrado."));
+                .orElseThrow(() -> new RegisterNotFoundException("Esse agenda nao esta registrado."));
     }
 
     @Override
     public void append(Agenda agenda) {
         if (agenda == null) {
-            throw new IllegalStateException("valores null");
+            throw new InvalidParametersAtRequestBodyException("valores null");
         }
         agendaRepository.save(agenda);
     }
@@ -48,7 +51,7 @@ public class AgendaService implements IBaseService<Agenda> {
     public void alter(Integer agendaId, Agenda newAgenda) {
         var oldAgenda = agendaRepository
                 .findById(agendaId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+                .orElseThrow(() -> new RegisterNotFoundException("Nao ha registro para atualizar."));
 
         oldAgenda.setObservacao(newAgenda.getObservacao());
     }
@@ -58,7 +61,7 @@ public class AgendaService implements IBaseService<Agenda> {
         var equip = agendaRepository.findById(agendaId);
 
         if (equip.isEmpty()) {
-            throw new IllegalStateException("Nao ha registro para deletar.");
+            throw new RegisterNotFoundException("Nao ha registro para deletar.");
         }
         agendaRepository.deleteById(agendaId);
     }

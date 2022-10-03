@@ -1,6 +1,9 @@
 package br.com.senaceventos.Services;
 
 import br.com.senaceventos.Entities.Colaborador;
+import br.com.senaceventos.Exceptions.InvalidParametersAtRequestBodyException;
+import br.com.senaceventos.Exceptions.NoContentFoundAtCollectionException;
+import br.com.senaceventos.Exceptions.RegisterNotFoundException;
 import br.com.senaceventos.Repositories.IColaboradorRepository;
 import br.com.senaceventos.Services.Common.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,7 @@ public class ColaboradorService implements IBaseService<Colaborador> {
         var colaboradorList = colaboradorRepository.findAll();
 
         if (colaboradorList.isEmpty()) {
-            throw new IllegalStateException("Nao ha colaboradores registrados.");
+            throw new NoContentFoundAtCollectionException("Nao ha colaboradores registrados.");
         }
         return colaboradorList;
     }
@@ -33,13 +36,13 @@ public class ColaboradorService implements IBaseService<Colaborador> {
     @Override
     public Colaborador retrieveById(Integer colaboradorId) {
         return colaboradorRepository.findById(colaboradorId)
-                .orElseThrow(() -> new IllegalStateException("Esse colaborador nao esta registrado."));
+                .orElseThrow(() -> new RegisterNotFoundException("Esse colaborador nao esta registrado."));
     }
 
     @Override
     public void append(Colaborador colaborador) {
         if (colaborador == null) {
-            throw new IllegalStateException("valores null");
+            throw new InvalidParametersAtRequestBodyException("Objeto null");
         }
         colaboradorRepository.save(colaborador);
     }
@@ -49,7 +52,7 @@ public class ColaboradorService implements IBaseService<Colaborador> {
     public void alter(Integer colaboradorId, Colaborador newColaborador) {
         var oldColaborador = colaboradorRepository
                 .findById(colaboradorId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+                .orElseThrow(() -> new RegisterNotFoundException("Nao ha registro para atualizar."));
 
         oldColaborador.setTipoColaborador(newColaborador.getTipoColaborador());
         oldColaborador.setNome(newColaborador.getNome());
@@ -60,7 +63,7 @@ public class ColaboradorService implements IBaseService<Colaborador> {
         var equip = colaboradorRepository.findById(colaboradorId);
 
         if (equip.isEmpty()) {
-            throw new IllegalStateException("Nao ha registro para deletar.");
+            throw new RegisterNotFoundException("Nao ha registro para deletar.");
         }
         colaboradorRepository.deleteById(colaboradorId);
     }

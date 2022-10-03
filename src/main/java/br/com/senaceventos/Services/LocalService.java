@@ -1,6 +1,9 @@
 package br.com.senaceventos.Services;
 
 import br.com.senaceventos.Entities.Local;
+import br.com.senaceventos.Exceptions.InvalidParametersAtRequestBodyException;
+import br.com.senaceventos.Exceptions.NoContentFoundAtCollectionException;
+import br.com.senaceventos.Exceptions.RegisterNotFoundException;
 import br.com.senaceventos.Repositories.ILocalRepository;
 import br.com.senaceventos.Services.Common.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,7 @@ public class LocalService implements IBaseService<Local> {
         var localList = localRepository.findAll();
 
         if (localList.isEmpty()) {
-            throw new IllegalStateException("Nao ha locals registrados.");
+            throw new NoContentFoundAtCollectionException("Nao ha locals registrados.");
         }
         return localList;
     }
@@ -33,13 +36,13 @@ public class LocalService implements IBaseService<Local> {
     @Override
     public Local retrieveById(Integer localId) {
         return localRepository.findById(localId)
-                .orElseThrow(() -> new IllegalStateException("Esse local nao esta registrado."));
+                .orElseThrow(() -> new RegisterNotFoundException("Esse local nao esta registrado."));
     }
 
     @Override
     public void append(Local local) {
         if (local == null) {
-            throw new IllegalStateException("valores null");
+            throw new InvalidParametersAtRequestBodyException("Objeto null");
         }
         localRepository.save(local);
     }
@@ -49,7 +52,11 @@ public class LocalService implements IBaseService<Local> {
     public void alter(Integer localId, Local newLocal) {
         var oldLocal = localRepository
                 .findById(localId)
-                .orElseThrow(() -> new IllegalStateException("Nao ha registro para atualizar."));
+                .orElseThrow(() -> new RegisterNotFoundException("Nao ha registro para atualizar."));
+
+        if (newLocal == null || newLocal.getDescricao().isEmpty() && newLocal.getObservacao().isEmpty()) {
+            throw new InvalidParametersAtRequestBodyException("Campos invalidos.");
+        }
 
         oldLocal.setDescricao(newLocal.getDescricao());
         oldLocal.setObservacao(newLocal.getObservacao());
@@ -60,7 +67,7 @@ public class LocalService implements IBaseService<Local> {
         var equip = localRepository.findById(localId);
 
         if (equip.isEmpty()) {
-            throw new IllegalStateException("Nao ha registro para deletar.");
+            throw new RegisterNotFoundException("Nao ha registro para deletar.");
         }
         localRepository.deleteById(localId);
     }
