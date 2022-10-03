@@ -4,12 +4,7 @@ import br.com.senaceventos.Controllers.Common.IBaseController;
 import br.com.senaceventos.Entities.Local;
 import br.com.senaceventos.Services.LocalService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -66,7 +61,6 @@ public class LocaisController implements IBaseController<Local> {
 
     @Override
     @Operation(summary = "Deleta um local registrado.")
-
     @DeleteMapping(path = "{localId}", produces = "application/json")
     public ResponseEntity<Optional<Local>> delete(@PathVariable("localId") Integer localId) {
         localService.remove(localId);
