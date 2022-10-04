@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiDocumentation {
     @Bean
     public OpenAPI createOAV3Description() {
-        return new OpenAPI().info(new Info()
-                .title("Eventos management API"));
+        return new OpenAPI()
+                .info(new Info()
+                .title("Eventos management API")
+                .description("Spring Boot API para gerenciamento de eventos")
+                .version("v0.0.1"));
     }
 }
