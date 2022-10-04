@@ -28,7 +28,9 @@ public class AgendasController implements IBaseController<Agenda> {
     @Operation(summary = "Retorna lista de agendas.")
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Agenda>> getListOf() {
+
         var agendasListResponse = agendaService.retrieveAll();
+
         return ResponseEntity.ok(agendasListResponse);
     }
 
@@ -36,7 +38,9 @@ public class AgendasController implements IBaseController<Agenda> {
     @Operation(summary = "Retorna uma agenda especifica por ID.")
     @GetMapping(path = "{agendaId}", produces = "application/json")
     public ResponseEntity<Agenda> get(@PathVariable("agendaId") Integer agendaId) {
+
         var agendaResponse = agendaService.retrieveById(agendaId);
+
         return ResponseEntity.ok(agendaResponse);
     }
 
@@ -44,8 +48,12 @@ public class AgendasController implements IBaseController<Agenda> {
     @Operation(summary = "Salva uma nova agenda.")
     @PostMapping(produces = "application/json")
     public ResponseEntity<Agenda> post(@RequestBody Agenda agendaRequest) {
+
         agendaService.append(agendaRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agendaRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .build(agendaRequest);
+
         return ResponseEntity.created(location).body(agendaRequest);
     }
 
@@ -54,8 +62,12 @@ public class AgendasController implements IBaseController<Agenda> {
     @PutMapping(path = "{agendaId}", produces = "application/json")
     public ResponseEntity<Agenda> put(@PathVariable("agendaId") Integer agendaId,
                                       @RequestBody Agenda agendaRequest) {
+
         agendaService.alter(agendaId, agendaRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(agendaRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .build(agendaRequest);
+
         return ResponseEntity.created(location).body(agendaRequest);
     }
 
@@ -63,7 +75,9 @@ public class AgendasController implements IBaseController<Agenda> {
     @Operation(summary = "Deleta uma agenda registrada.")
     @DeleteMapping(path = "{agendaId}", produces = "application/json")
     public ResponseEntity<Optional<Agenda>> delete(@PathVariable("agendaId") Integer agendaId) {
+
         agendaService.remove(agendaId);
+
         return ResponseEntity.noContent().build();
     }
 }

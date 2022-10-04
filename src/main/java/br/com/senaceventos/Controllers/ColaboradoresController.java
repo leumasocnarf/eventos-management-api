@@ -28,7 +28,9 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     @Operation(summary = "Retorna lista de colaborares.")
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Colaborador>> getListOf() {
+
         var colaboradoresListResponse = colaboradorService.retrieveAll();
+
         return ResponseEntity.ok(colaboradoresListResponse);
     }
 
@@ -36,7 +38,9 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     @Operation(summary = "Retorna um colaborador especifico por ID.")
     @GetMapping(path = "{colaboradorId}", produces = "application/json")
     public ResponseEntity<Colaborador> get(@PathVariable("colaboradorId") Integer colaboradorId) {
+
         var colaboradorResponse = colaboradorService.retrieveById(colaboradorId);
+
         return ResponseEntity.ok(colaboradorResponse);
     }
 
@@ -44,8 +48,12 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     @Operation(summary = "Salva um novo colaborador.")
     @PostMapping(produces = "application/json")
     public ResponseEntity<Colaborador> post(@RequestBody Colaborador colaboradorRequest) {
+
         colaboradorService.append(colaboradorRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaboradorRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .build(colaboradorRequest);
+
         return ResponseEntity.created(location).body(colaboradorRequest);
     }
 
@@ -54,8 +62,12 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     @PutMapping(path = "{colaboradorId}", produces = "application/json")
     public ResponseEntity<Colaborador> put(@PathVariable("colaboradorId") Integer colaboradorId,
                                            @RequestBody Colaborador colaboradorRequest) {
+
         colaboradorService.alter(colaboradorId, colaboradorRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(colaboradorRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .build(colaboradorRequest);
+
         return ResponseEntity.created(location).body(colaboradorRequest);
     }
 
@@ -63,7 +75,9 @@ public class ColaboradoresController implements IBaseController<Colaborador> {
     @Operation(summary = "Deleta um colaborador registrado.")
     @DeleteMapping(path = "{colaboradorId}", produces = "application/json")
     public ResponseEntity<Optional<Colaborador>> delete(@PathVariable("colaboradorId") Integer colaboradorId) {
+
         colaboradorService.remove(colaboradorId);
+
         return ResponseEntity.noContent().build();
     }
 }

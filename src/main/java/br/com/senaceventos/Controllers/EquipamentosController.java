@@ -7,7 +7,6 @@ import br.com.senaceventos.Services.EquipamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +79,10 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     public ResponseEntity<Equipamento> post(@RequestBody Equipamento equipamentoRequest) {
 
         equipamentoService.append(equipamentoRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .build(equipamentoRequest);
+
         return ResponseEntity.created(location).body(equipamentoRequest);
     }
 
@@ -92,7 +94,10 @@ public class EquipamentosController implements IBaseController<Equipamento> {
                                                                  @RequestBody Equipamento equipamentoRequest) {
 
         equipamentoService.appendInto(agendaId, equipamentoRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .build(equipamentoRequest);
+
         return ResponseEntity.created(location).body(equipamentoRequest);
     }
 
@@ -103,7 +108,10 @@ public class EquipamentosController implements IBaseController<Equipamento> {
                                            @RequestBody Equipamento equipamentoRequest) {
 
         equipamentoService.alter(equipamentoId, equipamentoRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build(equipamentoRequest);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .build(equipamentoRequest);
+
         return ResponseEntity.created(location).body(equipamentoRequest);
     }
 
@@ -113,6 +121,7 @@ public class EquipamentosController implements IBaseController<Equipamento> {
     public ResponseEntity<Optional<Equipamento>> delete(@PathVariable("equipamentoId") Integer equipamentoId) {
 
         equipamentoService.remove(equipamentoId);
+
         return ResponseEntity.noContent().build();
     }
 }
