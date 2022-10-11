@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendas</title>
+</head>
+<body>
+<div>
+    <h1>Agendas List</h1>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titulo</th>
+            <th>DataInicio</th>
+            <th>DataTermino</th>
+            <th>HoraInicio</th>
+            <th>HoraTermino</th>
+            <th>Observacao</th>
+            <th>Colaborador</th>
+            <th>Local</th>
+            <th>Equipamentos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="agenda : ${listAgendas}">
+            <td th:text="${agenda.id}"></td>
+            <td th:text="${agenda.titulo}"></td>
+            <td th:text="${agenda.inicio}"></td>
+            <td th:text="${agenda.termino}"></td>
+            <td th:text="${agenda.horaInicio}"></td>
+            <td th:text="${agenda.horaTermino}"></td>
+            <td th:text="${agenda.observacao}"></td>
+            <td th:text="${agenda.colaborador.nome}"></td>
+            <td th:text="${agenda.local.descricao}"></td>
+            <td th:each="equipamento: ${agenda.equipamentos}" th:text="${equipamento.descricao}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

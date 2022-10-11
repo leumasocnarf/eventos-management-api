@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipamentos</title>
+</head>
+<body>
+<div>
+    <h1>Equipamentos List</h1>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Descricao</th>
+            <th>Observacao</th>
+            <th>Agenda</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="equipamento : ${listEquipamentos}">
+            <td th:text="${equipamento.id}"></td>
+            <td th:text="${equipamento.descricao}"></td>
+            <td th:text="${equipamento.observacao}"></td>
+            <td th:each="agenda : ${equipamento.agendas}" th:text="${agenda.titulo}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

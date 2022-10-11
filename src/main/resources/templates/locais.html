@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Locais</title>
+</head>
+<body>
+<div>
+    <h1>Locais List</h1>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Descricao</th>
+            <th>Observacao</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="local : ${listLocais}">
+            <td th:text="${local.id}"></td>
+            <td th:text="${local.descricao}"></td>
+            <td th:text="${local.observacao}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

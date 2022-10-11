@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Colaboradores</title>
+</head>
+<body>
+<div>
+    <h1>Colaboradores List</h1>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Tipo</th>
+            <th>Nome</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="colaborador : ${listColaboradores}">
+            <td th:text="${colaborador.id}"></td>
+            <td th:text="${colaborador.tipoColaborador}"></td>
+            <td th:text="${colaborador.nome}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
