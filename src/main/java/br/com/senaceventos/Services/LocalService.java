@@ -64,9 +64,9 @@ public class LocalService implements IBaseService<Local> {
 
     @Override
     public void remove(Integer localId) {
-        var equip = localRepository.findById(localId);
+        var local = localRepository.findById(localId);
 
-        if (equip.isEmpty()) {
+        if (local.isEmpty()) {
             throw new RegisterNotFoundException("Nao ha registro para deletar.");
         }
         localRepository.deleteById(localId);

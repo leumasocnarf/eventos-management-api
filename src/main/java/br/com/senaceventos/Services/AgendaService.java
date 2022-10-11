@@ -58,9 +58,9 @@ public class AgendaService implements IBaseService<Agenda> {
 
     @Override
     public void remove(Integer agendaId) {
-        var equip = agendaRepository.findById(agendaId);
+        var agenda = agendaRepository.findById(agendaId);
 
-        if (equip.isEmpty()) {
+        if (agenda.isEmpty()) {
             throw new RegisterNotFoundException("Nao ha registro para deletar.");
         }
         agendaRepository.deleteById(agendaId);

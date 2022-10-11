@@ -60,9 +60,9 @@ public class ColaboradorService implements IBaseService<Colaborador> {
 
     @Override
     public void remove(Integer colaboradorId) {
-        var equip = colaboradorRepository.findById(colaboradorId);
+        var colaborador = colaboradorRepository.findById(colaboradorId);
 
-        if (equip.isEmpty()) {
+        if (colaborador.isEmpty()) {
             throw new RegisterNotFoundException("Nao ha registro para deletar.");
         }
         colaboradorRepository.deleteById(colaboradorId);
