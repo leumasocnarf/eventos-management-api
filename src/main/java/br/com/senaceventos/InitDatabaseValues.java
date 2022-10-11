@@ -1,14 +1,8 @@
 package br.com.senaceventos;
 
-import br.com.senaceventos.Entities.Agenda;
-import br.com.senaceventos.Entities.Colaborador;
+import br.com.senaceventos.Entities.*;
 import br.com.senaceventos.Entities.Enums.TipoColaborador;
-import br.com.senaceventos.Entities.Equipamento;
-import br.com.senaceventos.Entities.Local;
-import br.com.senaceventos.Repositories.IAgendaRepository;
-import br.com.senaceventos.Repositories.IColaboradorRepository;
-import br.com.senaceventos.Repositories.IEquipamentoRepository;
-import br.com.senaceventos.Repositories.ILocalRepository;
+import br.com.senaceventos.Repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +20,8 @@ public class InitDatabaseValues {
     CommandLineRunner commandLineRunner(IEquipamentoRepository equipamentoRepository,
                                         ILocalRepository localRepository,
                                         IColaboradorRepository colaboradorRepository,
-                                        IAgendaRepository agendaRepository) {
+                                        IAgendaRepository agendaRepository,
+                                        IUsuarioRepository usuarioRepository) {
         return args -> {
             var equip1 = new Equipamento();
             var equip2 = new Equipamento();
@@ -102,6 +97,26 @@ public class InitDatabaseValues {
             agenda3.setColaborador(colab3);
             agenda3.setLocal(local2);
 
+            var user1 = new Usuario();
+            var user2 = new Usuario();
+            var user3 = new Usuario();
+
+            user1.setNome("José");
+            user1.setEmail("jose@ex.com");
+            user1.setSenha("senha123");
+            user1.setTelefone("62911111111");
+
+            user2.setNome("Maria");
+            user2.setEmail("maria@ex.com");
+            user2.setSenha("segredo123");
+            user2.setTelefone("62922222222");
+
+            user3.setNome("Eduardo");
+            user3.setEmail("ed@ex.com");
+            user3.setSenha("sesame123");
+            user3.setTelefone("62933333333");
+
+
             equipamentoRepository.saveAll(
                     List.of(equip1, equip2, equip3, equip4, equip5)
             );
@@ -116,6 +131,10 @@ public class InitDatabaseValues {
 
             agendaRepository.saveAll(
                     List.of(agenda1, agenda2, agenda3)
+            );
+
+            usuarioRepository.saveAll(
+                    List.of(user1, user2, user3)
             );
         };
     }
