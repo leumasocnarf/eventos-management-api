@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+}
+
+
+body {
+    background-image: url(/images/blue-stage-background.png);
+    background-attachment: fixed;
+    background-position: bottom;
+    background-size: cover;
+    padding-top: 70px;
+}
+
+.top-navbar {
+    background: rgba(182, 182, 182, 0.26);
+    backdrop-filter: blur(50px);
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    z-index: +1;
+}
+
+.voltar-btn {
+    background-color: transparent;
+    border: 1px solid #f7941d;
+    color: #f7941d;
+    margin: 10px 20px;
+    padding: 10px 25px;
+    border-radius: 20px;
+    outline: none;
+    float: left;
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+.voltar-btn:hover {
+    transform: scale(1.10);
+}
+
+.title-container h1 {
+    padding-top: 10px;
+    color: #fff;
+    text-align: center;
+}
+
+.title-container h6 {
+    opacity: 0.8;
+    font-size: 12px;
+    text-align: center;
+}
+
+.cards-list {
+    background: rgba(34, 34, 34, 0.26);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 35px 25px;
+    width: 800px;
+    margin: 20px auto 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.novo-local-btn {
+    background-color: transparent;
+    border: 1px solid #f7941d;
+    color: #f7941d;
+    padding: 10px 25px;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+.novo-local-btn:hover {
+    transform: scale(1.10);
+}
+
+.local-minicard {
+    background: rgba(34, 34, 34, 0.26);
+    backdrop-filter: blur(10px);
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    margin: 20px 0;
+    transition: 0.5s;
+    border-radius: 10px;
+}
+
+.local-minicard:hover {
+    transform: scale(1.06);
+}
+
+.card_id_info {
+    grid-row: 1/4;
+    justify-self: start;
+    padding: 10px;
+}
+
+.card_descricao_info {
+    grid-row: 2/4;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 20px;
+    display: flex;
+}
+
+.card_observacao_info {
+    grid-row: 3/4;
+    padding: 10px;
+    display: block;
+}
+
+.delete-local-btn {
+    background-color: transparent;
+    border: 1px solid #e40404;
+    color: #e40404;
+    margin-right: 10px;
+    padding: 10px 25px;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+.delete-local-btn:hover {
+    transform: scale(1.10);
+}
+
+.edit-local-btn {
+    background-color: transparent;
+    border: 1px solid #8dc2f3;
+    color: #8dc2f3;
+    padding: 10px 25px;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+.edit-local:hover {
+    transform: scale(1.10);
+}
+
+@media (max-width: 640px) {
+
+    .cards-list {
+        position: relative;
+        width: 325px;
+        margin: 20px auto 0;
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 70px 25px;
+    }
+
+    .local-minicard {
+        padding: 10px 15px;
+        transition: 0.5s;
+        flex-wrap: wrap;
+        display: block;
+    }
+
+    .novo-local-btn {
+        margin-left: 80px;
+    }
+}

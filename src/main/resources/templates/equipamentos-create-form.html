@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles-equipamentos-form.css}">
+    <title>Novo Equipamento</title>
+</head>
+
+<body>
+
+<div class="top-navbar">
+    <a th:href="@{/equipamentos}">
+        <button class="voltar-btn">Voltar</button>
+    </a>
+</div>
+
+<div class="title-container">
+    <h1>Novo equipamento</h1>
+    <h6>Equipamentos do Senac</h6>
+</div>
+
+<div class="equipamentos-container">
+
+    <ul class="cards-list">
+
+        <form class="novo-form" th:action="@{/equipamentos/save}" th:object="${equipamento}" method="post">
+            <table>
+                <tr>
+                    <td><label for="descricao">Descrição: </label></td>
+                    <td><input type="text" th:field="*{descricao}" id="descricao" name="descricao" placeholder="Descreva o equipamento"></td>
+                </tr>
+                <tr>
+                    <td><label for="observacao">Observação: </label></td>
+                    <td><input type="text" th:field="*{observacao}" id="observacao" name="observacao" placeholder="Faça uma observação"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Salvar"></td>
+                </tr>
+            </table>
+
+        </form>
+
+    </ul>
+</div>
+
+
+</body>
+
+</html>
