@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
-
-
 @Controller
 public class AgendaThyController {
     
@@ -58,7 +55,7 @@ public class AgendaThyController {
     }
 
     @PostMapping("/agendas/save")
-    public String saveAgenda(@Valid @ModelAttribute Agenda agenda,
+    public String saveAgenda(@ModelAttribute Agenda agenda,
                              Model model) {
 
         agendaService.append(agenda);
