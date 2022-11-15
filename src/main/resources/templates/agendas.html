@@ -1,43 +1,72 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles-agenda.css}">
     <title>Agendas</title>
 </head>
+
 <body>
-<div>
-    <h1>Agendas List</h1>
-    <br>
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Titulo</th>
-            <th>DataInicio</th>
-            <th>DataTermino</th>
-            <th>HoraInicio</th>
-            <th>HoraTermino</th>
-            <th>Observacao</th>
-            <th>Colaborador</th>
-            <th>Local</th>
-            <th>Equipamentos</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="agenda : ${listAgendas}">
-            <td th:text="${agenda.id}"></td>
-            <td th:text="${agenda.titulo}"></td>
-            <td th:text="${agenda.inicio}"></td>
-            <td th:text="${agenda.termino}"></td>
-            <td th:text="${agenda.horaInicio}"></td>
-            <td th:text="${agenda.horaTermino}"></td>
-            <td th:text="${agenda.observacao}"></td>
-            <td th:text="${agenda.colaborador.nome}"></td>
-            <td th:text="${agenda.local.descricao}"></td>
-            <td th:each="equipamento: ${agenda.equipamentos}" th:text="${equipamento.descricao}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+
+    
+    <div class="top-navbar">
+        <a th:href="@{/}">
+            <button class="voltar-btn">Voltar</button>
+        </a>
+    </div>
+
+    <div class="title-container">
+        <h1>Agendas List</h1>
+        <h6>Agendas do Senac</h6>
+    </div>
+
+    <div class="agendas-container">
+
+        <ul class="cards-list">
+
+            <div class="agenda-nova">
+                <a th:href="@{/agendas/create}">
+                    <button class="nova-agenda-btn">Nova agenda</button>
+                </a>
+            </div>
+
+            <li class="agenda-minicard" th:each="agenda : ${listAgendas}">
+                <p class="card_id_info" th:text="${agenda.id}"></p>
+                <p class="card_titulo_info" th:text="${agenda.titulo}"></p>
+                <span class="card_dataInicio_info">Data de início: <a th:text="${agenda.inicio}"></a></span>
+                <p></p>
+                <span class="card_dataTermino_info">Data de termino: <a th:text="${agenda.termino}"></a></span>
+                <p></p>
+                <span class="card_horaInicio_info">Hora de início: <a th:text="${agenda.horaInicio}"></a></span>
+                <p></p>
+                <span class="card_horaTermino_info">Hora de termino: <a th:text="${agenda.horaTermino}"></a></span>
+                <p></p>
+                <span class="card_observacao_info"><a th:text="${agenda.observacao}"></a></span>
+                <p></p>
+                <span class="card_colaborador_info">Colaboradores: <a th:text="${agenda.colaborador.nome}"></a></span>
+                <p></p>
+                <span class="card_local_info">Local: <a th:text="${agenda.local.descricao}">Local do evento: </a></span>
+                <p></p>
+                <span class="card_equipamento_info" th:each="equipamento: ${agenda.equipamentos}">
+                    Equipamentos reservados para o evento: <a th:text="${equipamento.descricao}"></a>
+                </span>
+                <p></p>
+                <div class="agendas-actions">
+                    <a th:href="@{/agendas/delete/{id}(id=${agenda.id})}"><button
+                            class="delete-agenda-btn">Deletar</button></a>
+                    <a th:href="@{/agendas/edit/{id}(id=${agenda.id})}"><button
+                            class="edit-agenda-btn">Editar</button></a>
+                </div>
+            </li>
+
+
+        </ul>
+
+    </div>
+
 </body>
+
 </html>

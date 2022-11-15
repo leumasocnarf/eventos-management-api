@@ -1,14 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles-home.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Home</title>
 </head>
+
 <body>
-    <a href="/local">Local</a>
-    <a href="/usuario">Usuario</a>
-    <a href="/colaborador">Colaborador</a>
-    <a href="/equipamento">Equipamento</a>
-    <a href="/agenda">Agenda</a>
+
+    <div class="top-navbar">
+        <img src="../images/Senac_logo.svg.png" alt="">
+    </div>
+
+    <div class="content">
+
+        <small>Bem-vindo!</small>
+
+        <h1>Abaixo <br> tudo que você precisa:</h1>
+
+        <div class="button-routes-list">
+
+            <ul>
+                <li>
+                    <a th:href="@{/locais}">
+                        <button type="button">Locais</button>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/equipamentos}">
+                        <button type="button">Equipamentos</button>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/colaboradores}">
+                        <button type="button">Colaboradores</button>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/agendas}">
+                        <button type="button">Agendas</button>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <div class="footer-column">
+
+            <div class="row">
+
+                <h5>Redes sociais do Senac: </h5>
+
+                <ul>
+                    <li><a href="https://pt-br.facebook.com/senacgoias/" class="fa fa-facebook"></a>Facebook</li>
+                    <li><a href="https://pt-br.facebook.com/senacgoias/" class="fa fa-instagram"></a>Instagram</li>
+                    <li><a href="https://twitter.com/senacgoias" class="fa fa-twitter"></a>Twitter</li>
+                    <li><a href="https://www.youtube.com/@senacgoias" class="fa fa-youtube"></a>Youtube</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h5>Contatos</h5>
+
+            <ul>
+                <li></a>atendimento@go.senac.br</li>
+            </ul>
+
+        </div>
+
+    </footer>
+
 </body>
+
 </html>

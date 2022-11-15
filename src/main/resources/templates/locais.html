@@ -1,29 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles-locais.css}">
     <title>Locais</title>
 </head>
+
 <body>
-<div>
-    <h1>Locais List</h1>
-    <br>
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Descricao</th>
-            <th>Observacao</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="local : ${listLocais}">
-            <td th:text="${local.id}"></td>
-            <td th:text="${local.descricao}"></td>
-            <td th:text="${local.observacao}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+
+    <div class="top-navbar">
+        <a th:href="@{/}">
+            <button class="voltar-btn">Voltar</button>
+        </a>
+    </div>
+
+    <div class="title-container">
+        <h1>Locais List</h1>
+        <h6>Locais do Senac</h6>
+    </div>
+
+    <div class="locais-container">
+
+        <ul class="cards-list">
+
+            <div class="local-novo">
+                <a th:href="@{/locais/create}">
+                    <button class="novo-local-btn">Novo Local</button>
+                </a>
+            </div>
+
+            <li class="local-minicard" th:each="local : ${listLocais}">
+                <span class="card_id_info" th:text="${local.id}"></span>
+                <p></p>
+                <span class="card_descricao_info" th:text="${local.descricao}"></span>
+                <p></p>
+                <span class="card_observacao_info" th:text="${local.observacao}"></span>
+                <p></p>
+                <div class="locais-actions">
+                    <a th:href="@{locais/delete/{id}(id=${local.id})}"><button class="delete-local-btn">Deletar</button></a>
+                    <a th:href="@{/locais/edit/{id}(id=${local.id})}"><button class="edit-local-btn">Editar</button></a>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
 </body>
+
 </html>

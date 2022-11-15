@@ -1,29 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles-colaboradores.css}">
     <title>Colaboradores</title>
 </head>
+
 <body>
-<div>
-    <h1>Colaboradores List</h1>
-    <br>
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Tipo</th>
-            <th>Nome</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="colaborador : ${listColaboradores}">
-            <td th:text="${colaborador.id}"></td>
-            <td th:text="${colaborador.tipoColaborador}"></td>
-            <td th:text="${colaborador.nome}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="top-navbar">
+        <a th:href="@{/}">
+            <button class="voltar-btn">Voltar</button>
+        </a>
+    </div>
+
+    <div class="title-container">
+        <h1>Colaboradores List</h1>
+        <h6>Colaboradores do Senac</h6>
+    </div>
+
+    <div class="colaboradores-container">
+
+        <ul class="cards-list">
+
+            <div class="colaborador-novo">
+                <a th:href="@{/colaboradores/create}">
+                    <button class="novo-colaborador-btn">Novo Colaborador</button>
+                </a>
+            </div>
+            
+            <li class="colaborador-minicard" th:each="colaborador : ${listColaboradores}">
+                <span class="card_id_info" th:text="${colaborador.id}"></span>
+                <p></p>
+                <span class="card_tipo_info" th:text="${colaborador.tipoColaborador}"></span>
+                <p></p>
+                <span class="card_nome_info" th:text="${colaborador.nome}"></span>
+                <p></p>
+                <div class="colaboradores-actions">
+                    <a th:href="@{colaboradores/delete/{id}(id=${colaborador.id})}"><button class="delete-colaborador-btn">Deletar</button></a>
+                    <a th:href="@{/colaboradores/edit/{id}(id=${colaborador.id})}"><button class="edit-colaborador-btn">Editar</button></a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+
 </body>
+
 </html>
