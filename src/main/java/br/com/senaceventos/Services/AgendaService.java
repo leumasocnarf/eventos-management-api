@@ -53,7 +53,15 @@ public class AgendaService implements IBaseService<Agenda> {
                 .findById(agendaId)
                 .orElseThrow(() -> new RegisterNotFoundException("Nao ha registro para atualizar."));
 
+        oldAgenda.setTitulo(newAgenda.getTitulo());
+        oldAgenda.setInicio(newAgenda.getInicio());
+        oldAgenda.setTermino(newAgenda.getTermino());
+        oldAgenda.setHoraInicio(newAgenda.getHoraInicio());
+        oldAgenda.setHoraTermino(newAgenda.getHoraTermino());
         oldAgenda.setObservacao(newAgenda.getObservacao());
+        oldAgenda.setColaborador(newAgenda.getColaborador());
+        oldAgenda.setLocal(newAgenda.getLocal());
+        oldAgenda.setEquipamentos(newAgenda.getEquipamentos());
     }
 
     @Override
