@@ -117,6 +117,7 @@ public class InitDatabaseValues {
             user3.setTelefone("62933333333");
 
 
+
             equipamentoRepository.saveAll(
                     List.of(equip1, equip2, equip3, equip4, equip5)
             );
@@ -135,6 +136,14 @@ public class InitDatabaseValues {
 
             usuarioRepository.saveAll(
                     List.of(user1, user2, user3)
+            );
+
+            agenda1.reservarEquipamento(equip1);
+            agenda2.reservarEquipamento(equip2);
+            agenda3.reservarEquipamento(equip3);
+
+            agendaRepository.saveAll(
+                    List.of(agenda1, agenda2, agenda3)
             );
         };
     }
