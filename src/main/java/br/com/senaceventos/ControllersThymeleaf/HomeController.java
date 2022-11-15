@@ -1,4 +1,4 @@
-package br.com.senaceventos.Controllers.BasicThymeleaf;
+package br.com.senaceventos.ControllersThymeleaf;
 
 
 import org.springframework.stereotype.Controller;
