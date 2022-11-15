@@ -1,31 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles-equipamentos.css}">
     <title>Equipamentos</title>
 </head>
+
 <body>
-<div>
-    <h1>Equipamentos List</h1>
-    <br>
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Descricao</th>
-            <th>Observacao</th>
-            <th>Agenda</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="equipamento : ${listEquipamentos}">
-            <td th:text="${equipamento.id}"></td>
-            <td th:text="${equipamento.descricao}"></td>
-            <td th:text="${equipamento.observacao}"></td>
-            <td th:each="agenda : ${equipamento.agendas}" th:text="${agenda.titulo}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+
+    <div class="top-navbar">
+        <a th:href="@{/}">
+            <button class="voltar-btn">Voltar</button>
+        </a>
+    </div>
+
+    <div class="title-container">
+        <h1>Equipamentos List</h1>
+        <h6>Equipamentos do Senac</h6>
+    </div>
+
+    
+    <div class="equipamentos-container">
+
+        <ul class="cards-list">
+
+            <div class="equipamento-novo">
+                <a th:href="@{/equipamentos/create}">
+                    <button class="novo-equipamento-btn">Novo Equipamento</button>
+                </a>
+            </div>
+
+            <li class="equipamento-minicard" th:each="equipamento : ${listEquipamentos}">
+                <span class="card_id_info" th:text="${equipamento.id}"></span>
+                <p></p>
+                <span class="card_descricao_info" th:text="${equipamento.descricao}"></span>
+                <p></p>
+                <span class="card_observacao_info" th:text="${equipamento.observacao}"></span>
+                <p></p>
+                <span class="card_agenda_info" th:each="agenda : ${equipamento.agendas}">
+                    <a th:text="${agenda.titulo}"></a>
+                </span>
+                <p></p>
+                <div class="equipamentos-actions">
+                    <a th:href="@{/equipamentos/delete/{id}(id=${equipamento.id})}"><button class="delete-equipamento-btn">Deletar</button></a>
+                    <a th:href="@{/equipamentos/edit/{id}(id=${equipamento.id})}"><button class="edit-equipamento-btn">Editar</button></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
 </body>
+
 </html>
