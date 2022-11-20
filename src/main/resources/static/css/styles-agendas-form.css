@@ -103,7 +103,7 @@ body {
     transform: scale(1.10);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
 
     .cards-list {
         width: 325px;

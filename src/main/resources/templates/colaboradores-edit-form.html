@@ -38,7 +38,7 @@
 
                                     <option value="0" style="color: #000;">Escolha o tipo de colaborador: </option>
                                     <option id="tipoColab"
-                                            th:each="tipo : ${T(br.com.senaceventos.Entities.Enums.TipoColaborador).values()}"
+                                            th:each="tipo : ${T(br.com.senaceventos.models.enums.TipoColaborador).values()}"
                                             th:value="${tipo}" th:text="${tipo}" style="color: #000;"></option>
                                 </select>
                             </div>

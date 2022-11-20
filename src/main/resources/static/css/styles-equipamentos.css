@@ -85,7 +85,7 @@ body {
 }
 
 .equipamento-minicard {
-    background: rgba(34, 34, 34, 0.26);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     display: block;
     align-items: center;
@@ -159,7 +159,7 @@ body {
 }
 
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
 
     .cards-list {
         width: 325px;
