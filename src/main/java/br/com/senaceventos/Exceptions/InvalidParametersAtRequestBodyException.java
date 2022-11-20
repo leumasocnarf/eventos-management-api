@@ -1,4 +1,4 @@
-package br.com.senaceventos.Exceptions;
+package br.com.senaceventos.exceptions;
 
 
 public class InvalidParametersAtRequestBodyException extends RuntimeException{
