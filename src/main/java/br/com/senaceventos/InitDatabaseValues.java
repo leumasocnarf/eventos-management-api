@@ -1,8 +1,8 @@
 package br.com.senaceventos;
 
-import br.com.senaceventos.Entities.*;
-import br.com.senaceventos.Entities.Enums.TipoColaborador;
-import br.com.senaceventos.Repositories.*;
+import br.com.senaceventos.models.*;
+import br.com.senaceventos.models.enums.TipoColaborador;
+import br.com.senaceventos.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +17,11 @@ public class InitDatabaseValues {
         Inicializacao de valores no DB
      */
     @Bean
-    CommandLineRunner commandLineRunner(IEquipamentoRepository equipamentoRepository,
-                                        ILocalRepository localRepository,
-                                        IColaboradorRepository colaboradorRepository,
-                                        IAgendaRepository agendaRepository,
-                                        IUsuarioRepository usuarioRepository) {
+    CommandLineRunner commandLineRunner(IEquipamentosRepository equipamentosRepository,
+                                        ILocaisRepository locaisRepository,
+                                        IColaboradoresRepository colaboradoresRepository,
+                                        IAgendasRepository agendasRepository,
+                                        IUsuariosRepository usuariosRepository) {
         return args -> {
             var equip1 = new Equipamento();
             var equip2 = new Equipamento();
@@ -118,23 +118,23 @@ public class InitDatabaseValues {
 
 
 
-            equipamentoRepository.saveAll(
+            equipamentosRepository.saveAll(
                     List.of(equip1, equip2, equip3, equip4, equip5)
             );
 
-            localRepository.saveAll(
+            locaisRepository.saveAll(
                     List.of(local1, local2)
             );
 
-            colaboradorRepository.saveAll(
+            colaboradoresRepository.saveAll(
                     List.of(colab1, colab2, colab3)
             );
 
-            agendaRepository.saveAll(
+            agendasRepository.saveAll(
                     List.of(agenda1, agenda2, agenda3)
             );
 
-            usuarioRepository.saveAll(
+            usuariosRepository.saveAll(
                     List.of(user1, user2, user3)
             );
 
@@ -142,7 +142,7 @@ public class InitDatabaseValues {
             agenda2.reservarEquipamento(equip2);
             agenda3.reservarEquipamento(equip3);
 
-            agendaRepository.saveAll(
+            agendasRepository.saveAll(
                     List.of(agenda1, agenda2, agenda3)
             );
         };
