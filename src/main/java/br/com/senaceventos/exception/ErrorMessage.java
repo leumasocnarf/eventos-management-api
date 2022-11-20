@@ -1,4 +1,4 @@
-package br.com.senaceventos.exceptions;
+package br.com.senaceventos.exception;
 
 import java.util.Date;
 

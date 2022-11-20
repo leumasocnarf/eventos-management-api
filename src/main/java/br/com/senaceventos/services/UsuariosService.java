@@ -1,9 +1,9 @@
 package br.com.senaceventos.services;
 
 import br.com.senaceventos.models.Usuario;
-import br.com.senaceventos.exceptions.InvalidParametersAtRequestBodyException;
-import br.com.senaceventos.exceptions.NoContentFoundAtCollectionException;
-import br.com.senaceventos.exceptions.RegisterNotFoundException;
+import br.com.senaceventos.exception.InvalidParametersAtRequestBodyException;
+import br.com.senaceventos.exception.NoContentFoundAtCollectionException;
+import br.com.senaceventos.exception.RegisterNotFoundException;
 import br.com.senaceventos.repositories.IUsuariosRepository;
 import br.com.senaceventos.services.common.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
