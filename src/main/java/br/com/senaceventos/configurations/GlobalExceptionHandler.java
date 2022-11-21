@@ -1,10 +1,10 @@
 package br.com.senaceventos.configurations;
 
 
-import br.com.senaceventos.exception.ErrorMessage;
-import br.com.senaceventos.exception.InvalidParametersAtRequestBodyException;
-import br.com.senaceventos.exception.NoContentFoundAtCollectionException;
-import br.com.senaceventos.exception.RegisterNotFoundException;
+import br.com.senaceventos.exceptions.ErrorMessage;
+import br.com.senaceventos.exceptions.InvalidParametersAtRequestBodyException;
+import br.com.senaceventos.exceptions.NoContentFoundAtCollectionException;
+import br.com.senaceventos.exceptions.RegisterNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

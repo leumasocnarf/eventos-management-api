@@ -13,9 +13,7 @@ import java.util.List;
 
 @Configuration
 public class InitDatabaseValues {
-    /*
-        Inicializacao de valores no DB
-     */
+
     @Bean
     CommandLineRunner commandLineRunner(IEquipamentosRepository equipamentosRepository,
                                         ILocaisRepository locaisRepository,
