@@ -114,6 +114,9 @@ public class InitDatabaseValues {
             user3.setSenha("sesame123");
             user3.setTelefone("62933333333");
 
+
+
+
             equipamentosRepository.saveAll(
                     List.of(equip1, equip2, equip3, equip4, equip5)
             );
